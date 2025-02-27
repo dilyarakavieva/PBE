@@ -25,7 +25,7 @@ input = gets.chomp  # Lee una línea de entrada y elimina el salto de línea al 
 
 decimal_value = input.to_i  # Convierte la entrada a un número entero decimal
 
-hex_input = decimal_value.to_s(16).upcase.rjust(8, '0')  # Convierte a hexadecimal y asegur>
+hex_input = decimal_value.to_s(16).upcase.rjust(8, '0')  # Convierte a hexadecimal y asegura que tenga 8 caracteres
 
 hex_input = hex_input.scan(/.{2}/).reverse.join
 
