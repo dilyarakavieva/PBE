@@ -17,13 +17,13 @@ Este código puede ser utilizado en sistemas que requieren leer identificadores 
 
 ## El codigo:
 
-# Lee lo que el lector de tarjetas emula como entrada de teclado
+- Lee lo que el lector de tarjetas emula como entrada de teclado
 input = gets.chomp  # Lee una línea de entrada y elimina el salto de línea al final
-# Convierte la entrada (que se asume como número decimal) a hexadecimal
+- Convierte la entrada (que se asume como número decimal) a hexadecimal
 decimal_value = input.to_i  # Convierte la entrada a un número entero decimal
 hex_input = decimal_value.to_s(16).upcase.rjust(8, '0')  # Convierte a hexadecimal y asegur>
 hex_input = hex_input.scan(/.{2}/).reverse.join
-# Imprime la información leída y la representación hexadecimal
+- Imprime la información leída y la representación hexadecimal
 puts "Información leída desde el lector (o teclado): #{input}"
 puts "Información en hexadecimal: #{hex_input}"
 
