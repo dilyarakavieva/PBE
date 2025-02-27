@@ -39,15 +39,23 @@ Este código puede ser utilizado en sistemas que requieren leer identificadores 
 ## El uso:
 
 -- Antes del todo tienes que asegurarte que en tu ordenador esta cargado lenguaje ruby:
+
 ruby -v
+
 -- Hay que crear el fichero .rb para guardar el codigo:
+
 nano puzzle.rb
+
 -- Ejecutamos el codigo 
+
 sudo ruby puzzle.rb
 
 ## Ejemplo del uso:
 
 Acerca una tarjeta al lector (o escribe algo en el teclado)...
+
 0067385523
+
 Información leída desde el lector (o teclado): 0067385523
+
 Información en hexadecimal: B3380404
