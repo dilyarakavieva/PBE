@@ -1,7 +1,6 @@
 puts "Acerca una tarjeta al lector (o escribe algo en el teclado)..."
 
-# Lee lo que el lector de tarjetas emula como entrada de teclado
-input = gets.chomp  # Lee una línea de entrada y elimina el salto de línea al final
+input = gets.chomp  # Lee una línea de entrada 
 
 # Convierte la entrada (que se asume como número decimal) a hexadecimal
 decimal_value = input.to_i  # Convierte la entrada a un número entero decimal
