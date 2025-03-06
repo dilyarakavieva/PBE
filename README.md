@@ -15,6 +15,7 @@ Este código puede ser utilizado en sistemas que requieren leer identificadores 
 - Invierte el orden de los bytes del valor hexadecimal para cumplir con el formato de algunos lectores de tarjetas.Porque en nuestro caso ha convertido el codigo incorrecto y tuvimos que "invertir el orden".
 - Muestra tanto la entrada en decimal como en hexadecimal.
 
+- En el fichero Puzzle_Leer_Ficher.rb hay dos diferentes maneras de convertir el codigo. Si el UID tiene formato Big Endian: no convierte el codigo, y si tenemos Little Endian pues lo convierte. Big Endian almacena primero el byte más significativo y Little Endian almacena el byte menos significativo.
 ## El codigo:
 
 - Lee lo que el lector de tarjetas emula como entrada de teclado
