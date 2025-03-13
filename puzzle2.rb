@@ -1,4 +1,4 @@
-require_relative 'puzzletest6.rb'
+require_relative 'puzzle1.rb'
 require 'io/console'
 
 def leer_uid
@@ -15,8 +15,6 @@ def leer_uid
  return uid
 end
 
-# Leer UID
+# main
 uid_leido = leer_uid
-
-# Llamar a la función que está en el otro archivo
-procesar_uid(uid_leido)
+procesar_uid(uid_leido) # llamar a la función que está en el otro archivo
