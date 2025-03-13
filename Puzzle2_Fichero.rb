@@ -1,5 +1,5 @@
 #trabajamos con fichero 
-require_relative 'puzzletestS2.rb'
+require_relative 'Puzzle_Leer_Fichero.rb'
 require 'io/console'
 
 def leer_uid
