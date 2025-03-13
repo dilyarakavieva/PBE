@@ -6,7 +6,6 @@ def leer_uid
  puts "Introduce el UID de la tarjeta:"
  uid = ""
 
-# Leer tecla por tecla SIN eco
  STDIN.noecho do
   while true
     char = STDIN.getch  # Captura una tecla sin eco
