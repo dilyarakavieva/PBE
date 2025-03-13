@@ -33,16 +33,6 @@ def comparar_identificadores(input, datos)
   end
 end
 
-# Main
 
-puts "Acerca una tarjeta al lector (o escribe algo en el teclado)..."
 
-# Leer los identificadores y nombres del archivo
-archivo = 'datos.txt'  # Nombre del archivo donde están los identificadores y nombres
-datos = leer_identificadores_y_nombres(archivo)
-
-input = gets.strip
-
-# Comparar la entrada con los identificadores en el archivo
-comparar_identificadores(input, datos)
 
