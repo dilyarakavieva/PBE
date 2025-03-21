@@ -16,11 +16,12 @@ class RFIDApp
 
   # maneja el teclado
   def handle_key(event)
+    char = event.string
     if event.keyval == Gdk::Keyval::KEY_Return
       process_rfid(@rfid_buffer) unless @rfid_buffer.empty?
       @rfid_buffer = ""
-    elsif event.string =~ /[a-zA-Z0-9]/
-      @rfid_buffer << event.string
+   elsif char.match?(/[a-zA-Z0-9]/)
+      @rfid_buffer += char
     end
   end
   
