@@ -1,97 +1,84 @@
 require 'gtk3'
 
 class RFIDApp
-  def initialize
-    # variable para acumular los caracteres leídos
-    @rfid_buffer = ""
 
-    # ventana 
-    @window = Gtk::Window.new("rfid_gtk.rb")
+   # cambia el color de fondo del widget usando valores RGB (0-1)
+  def set_background_color(widget, r, g, b)
+    widget.override_background_color(:normal, Gdk::RGBA.new(r, g, b, 1))
+  end
+
+  # reset
+  def reset_view
+    @rfid_buffer = ""
+    @label.text = "Please, login with your university card"
+    set_background_color(@event_box, 0, 0, 1)  # Fondo azul
+  end
+
+  # maneja el teclado
+  def handle_key(event)
+    if event.keyval == Gdk::Keyval::KEY_Return
+      process_rfid(@rfid_buffer) unless @rfid_buffer.empty?
+      @rfid_buffer = ""
+    elsif event.string =~ /[a-zA-Z0-9]/
+      @rfid_buffer << event.string
+    end
+  end
+  
+  def initialize
+    # para acumular caracteres del UID
+    @rfid_buffer = ""
+    
+    # crear ventana principal
+    @window = Gtk::Window.new("RFID Reader")
     @window.set_default_size(400, 100)
     @window.signal_connect("destroy") { Gtk.main_quit }
 
-    # EventBox (con Label) y el botón
+    # el área de visualización y el botón
     vbox = Gtk::Box.new(:vertical, 5)
     vbox.margin = 5
     @window.add(vbox)
 
-    # EventBox para poder cambiar el color de fondo
+    # EventBox para permitir cambiar el color de fondo
     @event_box = Gtk::EventBox.new
     vbox.pack_start(@event_box, expand: true, fill: true, padding: 0)
 
-    # label inicial
+    # label para mostrar mensajes y resultados
     @label = Gtk::Label.new("Please, login with your university card")
-    @label.override_color(:normal, Gdk::RGBA.new(1, 1, 1, 1)) # Texto en blanco
+    @label.override_color(:normal, Gdk::RGBA.new(1, 1, 1, 1))  # Texto en blanco
     @event_box.add(@label)
 
-    # Botón Clear
+    # botón "Clear" para reiniciar la visualización
     clear_button = Gtk::Button.new(label: "Clear")
-    clear_button.signal_connect("clicked") { clear_display }
+    clear_button.signal_connect("clicked") { reset_view }
     vbox.pack_start(clear_button, expand: false, fill: false, padding: 0)
 
-    # capturar eventos de teclado
+    # capturar eventos de teclado para leer el UID
     @window.add_events(Gdk::EventMask::KEY_PRESS_MASK)
-    @window.signal_connect("key-press-event") { |_, event| on_key_pressed(event) }
+    @window.signal_connect("key-press-event") { |_, event| handle_key(event) } 
 
     # fondo azul
-    set_background_color(@event_box, 0, 0, 1) # Azul
+    set_background_color(@event_box, 0, 0, 1) # para cambiar el color del fondo
     @window.show_all
   end
 
-  # para capturar el UID
-  def on_key_pressed(event)
-    keyval = event.keyval
-    char = event.string
 
-    if keyval == Gdk::Keyval::KEY_Return
-      unless @rfid_buffer.empty?
-        uid = @rfid_buffer
-        procesar_uid(uid)
-        @rfid_buffer = ""  # Limpia el buffer
-      end
-    elsif char.match?(/[a-zA-Z0-9]/)
-      @rfid_buffer += char
-    end
-  end
-
-  # el UID capturado
-  def procesar_uid(uid)
-    # Elimina ceros iniciales
-    input = uid.gsub(/^0+/, '')
-
-    # convertir la entrada a número entero
+  # elimina ceros iniciales, convierte a decimal y hexadecimal
+  def process_rfid(uid)
+    clean_uid = uid.gsub(/^0+/, '') # eliminamos los ceros
     begin
-      decimal_input = Integer(input)
+      dec = Integer(clean_uid) #los convertimos a decimal
     rescue ArgumentError
-      puts "Error: El UID '#{input}' no es un número válido."
-      @label.text = "Error: UID inválido."
+      @label.text = "Error: Invalid UID."
       return
     end
 
-    # convertir a hexadecimal (Big Endian y Little Endian)
-    hex_input_big = decimal_input.to_s(16).upcase.rjust(8, '0')  # Big Endian
-    hex_input_little = hex_input_big.scan(/../).reverse.join     # Little Endian
+    hex_big = dec.to_s(16).upcase.rjust(8, '0')   # Big Endian
+    hex_little = hex_big.scan(/../).reverse.join  # Little Endian
 
-    # mostrar en la etiqueta
-    @label.text = "UID Decimal: #{decimal_input}\n"\
-                  "Hex Big Endian: #{hex_input_big}\n"\
-                  "Hex Little Endian: #{hex_input_little}"
-
-    # fondo rojo
-    set_background_color(@event_box, 1, 0, 0)
+    @label.text = "UID Decimal: #{dec}\nHex Big: #{hex_big}\nHex Little: #{hex_little}"
+    set_background_color(@event_box, 1, 0, 0)  # fondo rojo
   end
-
-  # botón clear
-  def clear_display
-    @rfid_buffer = ""
-    @label.text = "Please, login with your university card"
-    set_background_color(@event_box, 0, 0, 1) # Azul
-  end
-
-  # para cambiar el color de fondo de un EventBox
-  def set_background_color(widget, r, g, b)
-    widget.override_background_color(:normal, Gdk::RGBA.new(r, g, b, 1))
-  end
+ 
 end
 
 Gtk.init
